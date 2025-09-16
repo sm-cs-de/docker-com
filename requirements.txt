@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+pybase64
+pydantic
+apscheduler
