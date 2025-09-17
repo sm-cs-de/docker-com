@@ -3,6 +3,7 @@ version: "3.9"
 services:
   app:
     build: ./app
+    image: smcsde/com:redis_bridge
     depends_on:
       - myredis
     command: ["python", "redis_bridge.py"]

@@ -1,21 +1,22 @@
 .PHONY: up down build
-NAME=fastapi_rest
 REG=smcsde
+NAME=com
+TAG=fastapi_rest
 VERSION=latest
 
 build:
-	docker build . -t $(REG)/$(NAME)
+	docker build . -t $(REG)/$(NAME):$(TAG)
 
 up:
-	docker run -d --name $(NAME) -p8080:8000 $(REG)/$(NAME)
+	docker run -d --name $(TAG) -p8080:8000 $(REG)/$(NAME):$(TAG)
 
 down:
-	docker stop $(NAME)
-	docker rm $(NAME)
+	docker stop $(TAG)
+	docker rm $(TAG)
 
 # see available images: docker images
 # use command to tag and upload latest build: make VERSION=v2 upload
 upload:
-	docker tag $(REG)/$(NAME):latest $(REG)/$(NAME):$(VERSION)
+	docker tag $(REG)/$(NAME):$(TAG) $(REG)/$(NAME):$(TAG)-$(VERSION)
 	docker login
-	docker push $(REG)/$(NAME):$(VERSION)
+	docker push $(REG)/$(NAME):$(TAG)-$(VERSION)
