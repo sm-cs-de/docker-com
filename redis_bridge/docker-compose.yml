@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  app:
+    build: ./app
+    depends_on:
+      - myredis
+    command: ["python", "redis_bridge.py"]
+    networks:
+      - mynetwork
+
+  myredis:
+    image: redis:7
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
