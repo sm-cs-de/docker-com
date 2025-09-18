@@ -1,0 +1,31 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # broker port
+      - "15672:15672"   # management UI (http://localhost:15672)
+    networks:
+      - mynetwork
+
+  producer:
+    build: ./producer
+    image: smcsde/com:rabbitmq_broker_producer
+    container_name: rabbitmq_broker_producer
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+  consumer:
+    build: ./consumer
+    image: smcsde/com:rabbitmq_broker_consumer
+    container_name: rabbitmq_broker_consumer
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

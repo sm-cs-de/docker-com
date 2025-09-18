@@ -14,10 +14,10 @@ conn, addr = server_socket.accept()
 print(f"Connection from {addr}")
 
 data = conn.recv(1024).decode()
-print("Received from client:", data)
+print("Received from consumer:", data)
 
-conn.sendall("Hello from server!".encode())
-print("Sent reply to client.")
+conn.sendall("Hello from producer!".encode())
+print("Sent reply to consumer.")
 
 conn.close()
 server_socket.close()
