@@ -1,0 +1,23 @@
+services:
+  writer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: smcsde/com:volume_writer
+    volumes:
+      - shared:/data
+    container_name: volume_writer
+    command: sh -c "echo hello > /data/msg.txt"
+
+  reader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: smcsde/com:volume_reader
+    volumes:
+      - shared:/data
+    container_name: volume_reader
+    command: cat /data/msg.txt
+
+volumes:
+  shared:
