@@ -1,0 +1,22 @@
+services:
+  writer:
+    build: ./writer
+    image: smcsde/com:ipc_shm_writer
+    container_name: ipc_shm_writer
+    ipc: shareable                  # allow shared memory export
+    networks:
+      - mynetwork
+
+  reader:
+    build: ./reader
+    image: smcsde/com:ipc_shm_reader
+    container_name: ipc_shm_reader
+    ipc: container:ipc_shm_writer   # join writer's IPC namespace
+    depends_on:
+      - writer
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
