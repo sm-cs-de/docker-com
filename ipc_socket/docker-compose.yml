@@ -1,0 +1,17 @@
+services:
+  server:
+    build: ./server
+    image: smcsde/com:ipc_socket_server
+    container_name: ipc_socket_server
+    volumes:
+      - sockdata:/sockets
+
+  client:
+    build: ./client
+    image: smcsde/com:ipc_socket_client
+    container_name: ipc_socket_client
+    volumes:
+      - sockdata:/sockets
+
+volumes:
+  sockdata:
