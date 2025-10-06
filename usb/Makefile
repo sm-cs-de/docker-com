@@ -1,7 +1,7 @@
 .PHONY: up down build
 REG=smcsde
 NAME=com
-TAG=fastapi_rest
+TAG=usb
 VERSION=latest
 TOKEN=$(PWD)/../.access-token
 
@@ -9,7 +9,7 @@ build:
 	docker build . -t $(REG)/$(NAME):$(TAG)
 
 up:
-	docker run -d --name $(TAG) -p8080:8000 $(REG)/$(NAME):$(TAG)
+	docker run --device=/dev/bus/usb:/dev/bus/usb --privileged --name $(TAG) $(REG)/$(NAME):$(TAG)
 
 down:
 	docker stop $(TAG)

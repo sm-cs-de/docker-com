@@ -3,6 +3,7 @@ REG=smcsde
 NAME=com
 TAG=ipc_socket
 VERSION=latest
+TOKEN=$(PWD)/../.access-token
 
 build:
 	docker compose build --pull
@@ -18,6 +19,10 @@ down:
 upload:
 	docker tag $(REG)/$(NAME):$(TAG)_server $(REG)/$(NAME):$(TAG)_server-$(VERSION)
 	docker tag $(REG)/$(NAME):$(TAG)_client $(REG)/$(NAME):$(TAG)_client-$(VERSION)
-	docker login
+	@if [ ! -f $(TOKEN) ]; then \
+		@cat $(TOKEN) | docker login -u $(REG) --password-stdin; \
+	else \
+		docker login; \
+	fi
 	docker push $(REG)/$(NAME):$(TAG)_server-$(VERSION)
 	docker push $(REG)/$(NAME):$(TAG)_client-$(VERSION)

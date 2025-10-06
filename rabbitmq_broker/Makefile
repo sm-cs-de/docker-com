@@ -3,6 +3,7 @@ REG=smcsde
 NAME=com
 TAG=rabbitmq_broker
 VERSION=latest
+TOKEN=$(PWD)/../.access-token
 
 build:
 	docker compose build --pull
@@ -18,6 +19,10 @@ down:
 upload:
 	docker tag $(REG)/$(NAME):$(TAG)_producer $(REG)/$(NAME):$(TAG)_producer-$(VERSION)
 	docker tag $(REG)/$(NAME):$(TAG)_consumer $(REG)/$(NAME):$(TAG)_consumer-$(VERSION)
-	docker login
+	@if [ ! -f $(TOKEN) ]; then \
+		@cat $(TOKEN) | docker login -u $(REG) --password-stdin; \
+	else \
+		docker login; \
+	fi
 	docker push $(REG)/$(NAME):$(TAG)_producer-$(VERSION)
 	docker push $(REG)/$(NAME):$(TAG)_consumer-$(VERSION)

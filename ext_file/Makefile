@@ -3,6 +3,7 @@ REG=smcsde
 NAME=com
 TAG=ext_file
 VERSION=latest
+TOKEN=$(PWD)/../.access-token
 
 build:
 	docker build . -t $(REG)/$(NAME):$(TAG)
@@ -18,5 +19,9 @@ down:
 # use command to tag and upload latest build: make VERSION=v2 upload
 upload:
 	docker tag $(REG)/$(NAME):$(TAG) $(REG)/$(NAME):$(TAG)-$(VERSION)
-	docker login
+	@if [ ! -f $(TOKEN) ]; then \
+		@cat $(TOKEN) | docker login -u $(REG) --password-stdin; \
+	else \
+		docker login; \
+	fi
 	docker push $(REG)/$(NAME):$(TAG)-$(VERSION)
