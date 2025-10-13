@@ -6,7 +6,7 @@ VERSION=latest
 TOKEN=$(PWD)/../.access-token
 
 up:
-	docker compose up --build
+	docker-compose up --build
 
 upload:
 	docker tag $(REG)/$(NAME):$(TAG)_writer $(REG)/$(NAME):$(TAG)_writer-$(VERSION)
