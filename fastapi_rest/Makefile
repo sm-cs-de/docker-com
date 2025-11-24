@@ -19,7 +19,7 @@ down:
 # use command to tag and upload latest build: make VERSION=v2 upload
 upload:
 	docker tag $(REG)/$(NAME):$(TAG) $(REG)/$(NAME):$(TAG)-$(VERSION)
-	@if [ ! -f $(TOKEN) ]; then \
+	@if [ -f $(TOKEN) ]; then \
 		@cat $(TOKEN) | docker login -u $(REG) --password-stdin; \
 	else \
 		docker login; \

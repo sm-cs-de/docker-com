@@ -19,7 +19,7 @@ down:
 upload:
 	docker tag $(REG)/$(NAME):$(TAG)_writer $(REG)/$(NAME):$(TAG)_writer-$(VERSION)
 	docker tag $(REG)/$(NAME):$(TAG)_reader $(REG)/$(NAME):$(TAG)_reader-$(VERSION)
-	@if [ ! -f $(TOKEN) ]; then \
+	@if [ -f $(TOKEN) ]; then \
 		@cat $(TOKEN) | docker login -u $(REG) --password-stdin; \
 	else \
 		docker login; \
